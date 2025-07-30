@@ -23,7 +23,7 @@ def start_proxy_service(
     with open(proxy_conf_path, "r") as infile:
         proxy_conf = json.load(infile)
 
-    proxy_listen = proxy_conf["inbounds"][0]["listen"]
+    proxy_listen = proxy_conf["inbounds"][0].get("listen", "127.0.0.1")
     proxy_port = proxy_conf["inbounds"][0]["port"]
     proxy_process = subprocess.Popen(
         [binary_path, "-c", proxy_conf_path],
