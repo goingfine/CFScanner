@@ -1,7 +1,3 @@
-[build-system]
-requires = ["setuptools>=64", "setuptools_scm>=8"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "cfscanner"
 authors = [
@@ -10,29 +6,26 @@ authors = [
 ]
 description = "Cloudflare's edge IPs scanner to locate ones that are viable for use with v2ray/xray"
 readme = "README.md"
-requires-python = ">=3.6"
+dependencies = [
+  "requests>=2.28.2",
+  "pysocks>=1.7.1",
+  "rich>=13.7.0,<14.0.0",
+  "fancylogging>=0.0.3",
+]
+requires-python = ">=3.8"
 classifiers = [
   "Programming Language :: Python :: 3",
   "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
   "Operating System :: OS Independent",
 ]
-dependencies = [
-  "requests>=2.28.2",
-  "pysocks>=1.7.1",
-  "rich>=13.3.3",
-  "setuptools",
-  "fancylogging>=0.0.3",
-]
-dynamic = ["version"]
-
-[project.urls]
-"Homepage" = "https://github.com/MortezaBashsiz/CFScanner/tree/main/python"
-"Bug Tracker" = "https://github.com/MortezaBashsiz/CFScanner/issues"
+version = "1.5.4"
 
 [project.scripts]
 cfscanner = "cfscanner:main"
 
-[tool.setuptools_scm]
-version_file = "src/cfscanner/_version.py"
-tag_regex = 'python-(?P<version>v.+)'
-root = ".."
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "pyv$version"
+version_scheme = "pep440"
+version_provider = "pep621"
+update_changelog_on_bump = true

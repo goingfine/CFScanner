@@ -6,7 +6,7 @@ import signal
 import statistics
 from functools import partial
 
-import pkg_resources
+from importlib.metadata import version, PackageNotFoundError
 
 from .args.parser import parse_args
 from .args.testconfig import TestConfig
@@ -54,9 +54,9 @@ ____ ____ ____ ____ ____ _  _ _  _ ____ ____
 
     try:
         console.print(
-            f"[bold green1]v{pkg_resources.get_distribution('cfscanner').version}[bold green1]\n\n"
+            f"[bold green1]v{version('cfscanner')}[bold green1]\n\n"
         )
-    except pkg_resources.DistributionNotFound:
+    except PackageNotFoundError:
         console.print("[bold green1]v0.0.0[bold green1]\n\n")
 
     console.log(f"[green]Scan started - {START_DT_STR}[/green]")
@@ -78,7 +78,7 @@ ____ ____ ____ ____ ____ _  _ _  _ ____ ____
         )
 
     # check if blocked
-    if not args.no_vpn:
+    if (not args.no_vpn) and not (args.no_fronting):
         if args.fronting_domain:
             with console.status(
                 "[green]Checking if fronting domain is blocked[/green]"
