@@ -24,8 +24,8 @@ jobs:
     # Step : CD
     - name: CD to windows dir
       run: 
-        dir; dir ..; dir ../../; dir bin; dir workflow;
-        cd ../windows
+        dir; dir ..; dir ../../;
+        cd windows
 
     # Step 3: Restore dependencies
     - name: Restore dependencies
