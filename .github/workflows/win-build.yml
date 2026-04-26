@@ -37,8 +37,8 @@ jobs:
     - name: Copy additional files
       run: |
         Copy-Item -Path assets -Destination ./publish/ -Recurse
-       shell: pwsh
-
+      shell: pwsh
+       
     # Step 7: Archive the build output with directories
     - name: Create ZIP file
       run: Compress-Archive -Path ./publish/* -DestinationPath ./WinCFScan.zip
