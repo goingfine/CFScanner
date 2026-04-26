@@ -1,4 +1,4 @@
-name: Build and Release
+name: Windows Build and Release
 
 on:
   workflow_dispatch:
@@ -24,12 +24,6 @@ jobs:
     #  with:
     #    dotnet-version: 6.0.x 
 
-    # Step : CD
-    - name: CD to windows dir
-      run: 
-        dir; dir ..; dir ../../;
-        cd windows
-
     # Step 3: Restore dependencies
     - name: Restore dependencies
       run: cd windows; dotnet restore
@@ -46,7 +40,7 @@ jobs:
     - name: Copy additional files
       run: |
         cd windows; 
-        Copy-Item -Path assets -Destination ./publish/ -Recurse
+        Copy-Item -Path assets/* -Destination ./publish/ -Recurse
       shell: pwsh
        
     # Step 7: Archive the build output with directories
@@ -79,6 +73,7 @@ jobs:
         artifacts: WinCFScan.zip
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref_name }}
-        name: Release ${{ github.ref_name }}
+        generate_release_notes: true
+        name: Release ${{ github.ref }}
         body: |
           This release contains the compiled executable for the WinCFScan application.
