@@ -24,7 +24,7 @@ jobs:
     # Step : CD
     - name: CD to windows dir
       run: 
-        dir
+        dir; 
         cd ../windows
 
     # Step 3: Restore dependencies
