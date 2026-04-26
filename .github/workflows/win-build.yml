@@ -1,6 +1,7 @@
 name: Build and Release
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'win-v*' # Trigger only when a tag starting with 'win-v' is pushed (e.g., win-v1.0.0)
@@ -36,9 +37,6 @@ jobs:
     - name: Copy additional files
       run: |
         Copy-Item -Path assets -Destination ./publish/ -Recurse
-        #mkdir ./publish/assets
-        #copy assets\app-config.json ./publish/app-config.json
-        #copy assets\Readme.txt ./publish\Readme.txt
        shell: pwsh
 
     # Step 7: Archive the build output with directories
