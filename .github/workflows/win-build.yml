@@ -29,25 +29,26 @@ jobs:
 
     # Step 3: Restore dependencies
     - name: Restore dependencies
-      run: dotnet restore
+      run: cd windows; dotnet restore
 
     # Step 4: Build the application
     - name: Build the application
-      run: dotnet build --configuration Release
+      run: cd windows; dotnet build --configuration Release
 
     # Step 5: Publish the application
     - name: Publish the application
-      run: dotnet publish -c Release -o ./publish
+      run: cd windows; dotnet publish -c Release -o ./publish
 
     # Step 6: Copy additional files into the publish directory
     - name: Copy additional files
       run: |
+        cd windows; 
         Copy-Item -Path assets -Destination ./publish/ -Recurse
       shell: pwsh
        
     # Step 7: Archive the build output with directories
     - name: Create ZIP file
-      run: Compress-Archive -Path ./publish/* -DestinationPath ./WinCFScan.zip
+      run: cd windows; Compress-Archive -Path ./publish/* -DestinationPath ./WinCFScan.zip
       shell: pwsh
 
     # Step 8: Upload the build artifact
@@ -55,7 +56,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: WinCFScan
-        path: ./WinCFScan.zip
+        path: ./windows/WinCFScan.zip
 
   release:
     needs: build
