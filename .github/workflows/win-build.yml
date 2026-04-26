@@ -21,6 +21,10 @@ jobs:
       with:
         dotnet-version: 6.0.x 
 
+    # Step : CD
+    - name: CD to windows dir
+      run: cd windows
+
     # Step 3: Restore dependencies
     - name: Restore dependencies
       run: dotnet restore
