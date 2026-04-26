@@ -73,7 +73,7 @@ jobs:
         artifacts: WinCFScan.zip
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref_name }}
-        generate_release_notes: true
-        name: Release ${{ github.ref }}
+        generateReleaseNotes: true
+        name: Release ${{ github.ref_name }}
         body: |
           This release contains the compiled executable for the WinCFScan application.
