@@ -1,0 +1,76 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'win-v*' # Trigger only when a tag starting with 'win-v' is pushed (e.g., win-v1.0.0)
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up .NET environment
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x 
+
+    # Step 3: Restore dependencies
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # Step 4: Build the application
+    - name: Build the application
+      run: dotnet build --configuration Release
+
+    # Step 5: Publish the application
+    - name: Publish the application
+      run: dotnet publish -c Release -o ./publish
+
+    # Step 6: Copy additional files into the publish directory
+    - name: Copy additional files
+      run: |
+        Copy-Item -Path assets -Destination ./publish/ -Recurse
+        #mkdir ./publish/assets
+        #copy assets\app-config.json ./publish/app-config.json
+        #copy assets\Readme.txt ./publish\Readme.txt
+       shell: pwsh
+
+    # Step 7: Archive the build output with directories
+    - name: Create ZIP file
+      run: Compress-Archive -Path ./publish/* -DestinationPath ./WinCFScan.zip
+      shell: pwsh
+
+    # Step 8: Upload the build artifact
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: WinCFScan
+        path: ./WinCFScan.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Download the artifact
+    - name: Download build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: WinCFScan
+
+    # Step 2: Create a GitHub release
+    - name: Create GitHub Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: WinCFScan.zip
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+        body: |
+          This release contains the compiled executable for the WinCFScan application.
