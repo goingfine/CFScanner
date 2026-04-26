@@ -6,6 +6,9 @@ on:
     tags:
       - 'win-v*' # Trigger only when a tag starting with 'win-v' is pushed (e.g., win-v1.0.0)
 
+permissions:
+  contents: write
+  
 jobs:
   build:
     runs-on: windows-latest
