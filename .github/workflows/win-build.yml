@@ -70,7 +70,7 @@ jobs:
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: WinCFScan-{{ github.ref_name }}.zip
+        artifacts: WinCFScan-${{ github.ref_name }}.zip
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref_name }}
         generateReleaseNotes: true
