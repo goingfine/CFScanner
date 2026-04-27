@@ -74,6 +74,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref_name }}
         generateReleaseNotes: true
-        name: Windows ${{ github.ref_name }}
+        name: Windows-- ${{ github.ref_name }}
         body: |
           This release contains the compiled executable for the WinCFScan application.
