@@ -45,7 +45,7 @@ jobs:
        
     # Step 7: Archive the build output with directories
     - name: Create ZIP file
-      run: cd windows; Compress-Archive -Path ./publish/* -DestinationPath ./WinCFScan.zip
+      run: cd windows; Compress-Archive -Path ./publish/* -DestinationPath ./WinCFScan-{{ github.ref_name }}.zip
       shell: pwsh
 
     # Step 8: Upload the build artifact
@@ -53,7 +53,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: WinCFScan
-        path: ./windows/WinCFScan.zip
+        path: ./windows/WinCFScan-{{ github.ref_name }}.zip
 
   release:
     needs: build
@@ -70,10 +70,10 @@ jobs:
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: WinCFScan.zip
+        artifacts: WinCFScan-{{ github.ref_name }}.zip
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref_name }}
         generateReleaseNotes: true
-        name: Release ${{ github.ref_name }}
+        name: Windows ${{ github.ref_name }}
         body: |
           This release contains the compiled executable for the WinCFScan application.
