@@ -16,11 +16,11 @@ jobs:
     steps:
     # Step 1: Checkout the repository
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
 
     # Step 2: Set up .NET environment
     #- name: Setup .NET
-    #  uses: actions/setup-dotnet@v3
+    #  uses: actions/setup-dotnet@v4
     #  with:
     #    dotnet-version: 6.0.x 
 
@@ -64,7 +64,7 @@ jobs:
     - name: Download build artifact
       uses: actions/download-artifact@v8
       with:
-        name: WinCFScan-${{ github.ref_name }}
+        name: WinCFScan-${{ github.ref_name }}.zip
 
     # Step 2: Create a GitHub release
     - name: Create GitHub Release
