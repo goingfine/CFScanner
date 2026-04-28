@@ -1,5 +1,10 @@
 name: Windows Build and Release
 
+# To trigger this action add a tag like win-v1* then push it. e.g:
+# git pull
+# git tag win-v1.2.2
+# git push origin --tags
+
 on:
   workflow_dispatch:
   push:
@@ -22,11 +27,11 @@ jobs:
     #- name: Setup .NET
     #  uses: actions/setup-dotnet@v4
     #  with:
-    #    dotnet-version: 6.0.x 
+    #    dotnet-version: 8.0.x 
 
     # Step 3: Restore dependencies
     - name: Restore dependencies
-      run: cd windows; dotnet --list-runtimes; dotnet --list-sdks;  echo "--------"; dotnet --version; dotnet restore
+      run: cd windows; dotnet restore
 
     # Step 4: Build the application
     - name: Build the application
@@ -37,11 +42,11 @@ jobs:
       run: cd windows; dotnet publish -c Release -o ./publish
 
     # Step 6: Copy additional files into the publish directory
-    # - name: Copy additional files
-      # run: |
-      #   cd windows; 
-      #   Copy-Item -Path assets/* -Destination ./publish/ -Recurse
-      # shell: pwsh
+    - name: Copy additional files
+      run: |
+         cd windows; 
+         Copy-Item -Path assets/* -Destination ./publish/ -Recurse
+      shell: pwsh
        
     # Step 7: Archive the build output with directories
     - name: Create ZIP file
@@ -58,7 +63,7 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
-
+    
     steps:
     # Step 1: Download the artifact
     - name: Download build artifact
@@ -76,4 +81,5 @@ jobs:
         generateReleaseNotes: true
         name: ${{ github.ref_name }}
         body: |
-          This release contains the compiled executable for the WinCFScan application.
+          This release contains the compiled 64bit executable for the WinCFScan application.
+          You need .Net 8 runtime installed on your windows to run it.
