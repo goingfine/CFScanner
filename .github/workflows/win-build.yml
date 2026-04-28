@@ -37,11 +37,11 @@ jobs:
       run: cd windows; dotnet publish -c Release -o ./publish
 
     # Step 6: Copy additional files into the publish directory
-    - name: Copy additional files
-      run: |
-        cd windows; 
-        Copy-Item -Path assets/* -Destination ./publish/ -Recurse
-      shell: pwsh
+    # - name: Copy additional files
+      # run: |
+      #   cd windows; 
+      #   Copy-Item -Path assets/* -Destination ./publish/ -Recurse
+      # shell: pwsh
        
     # Step 7: Archive the build output with directories
     - name: Create ZIP file
